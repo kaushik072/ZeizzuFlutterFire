@@ -54,5 +54,14 @@ public class FlutterFirebaseMessagingReceiver extends BroadcastReceiver {
         FlutterFirebaseMessagingUtils.EXTRA_REMOTE_MESSAGE, remoteMessage);
     FlutterFirebaseMessagingBackgroundService.enqueueMessageProcessing(
         context, onBackgroundMessageIntent);
+
+    //  |-> ---------------------
+    //    Launch App in Background/Quit
+    //   ------------------------
+    Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+    if (launchIntent != null) {
+      launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+      context.startActivity(launchIntent);
+    }
   }
 }
